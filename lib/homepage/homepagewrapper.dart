@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'provider/go.dart';
-import 'pageone.dart';
-import 'subpage2.dart';
-import 'subpage3.dart';
+import '../homepage/provider/go.dart';
+import '../homepage/homepageone.dart';
+import '../homepage/subpage2.dart';
+import '../homepage/subpage3.dart';
+
+export '../homepage/homepagewrapper.dart' hide page, scrBg;
 
 /// Widget wrapper of entire homepages.
 class HomePageWrapper extends StatelessWidget {
@@ -31,7 +33,7 @@ class HomePageWrapper extends StatelessWidget {
                   go.onPress(controller, key.logicalKey, size.height),
               child: Stack(
                 children: [
-                  scrollbarBackground(thickness),
+                  scrBg(thickness),
                   page(size, thickness, go, controller)
                 ],
               ),
@@ -41,7 +43,9 @@ class HomePageWrapper extends StatelessWidget {
   }
 }
 
+/// Displaying homepage pages.
 Widget page(Size size, double thickness, Go go, ScrollController controller) {
+  /// Shortcut function to animated navigation.
   GestureDetector Function(Widget child) onTap(int index, String key) {
     return (child) => GestureDetector(
           onTap: () => go.onTap(controller, key, index, size.height),
@@ -49,8 +53,9 @@ Widget page(Size size, double thickness, Go go, ScrollController controller) {
         );
   }
 
+  /// List of pages in homepage.
   List<Widget> homePages(Go goVal) => [
-        PageOne(bottomClick: onTap(0, 'bottom')),
+        HomePageOne(onBottom: onTap(0, 'bottom')),
         SubPage2(bottomClick: onTap(1, 'bottom'), topClick: onTap(1, 'top')),
         SubPage3(topClick: onTap(2, 'top'))
       ].asMap().entries.map((e) {
@@ -84,7 +89,8 @@ Widget page(Size size, double thickness, Go go, ScrollController controller) {
   );
 }
 
-Widget scrollbarBackground(double thickness) => Positioned(
+/// Scrollbar background.
+Widget scrBg(double thickness) => Positioned(
     top: 0,
     bottom: 0,
     right: 0,

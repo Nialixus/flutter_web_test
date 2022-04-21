@@ -5,7 +5,7 @@ class GoOne with ChangeNotifier {
   /// Boolean for stating widget has been visible or not.
   List<bool> visible = [false, false, false, false, false, false];
 
-  /// Set visibility
+  /// Set visibility.
   void setVisibile() async {
     visible[0] = true;
 

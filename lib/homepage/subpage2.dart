@@ -11,8 +11,6 @@ class SubPage2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('Laman 2 dibangun');
-
     return ChangeNotifierProvider(
         create: (context) => SubPage2Provider(),
         builder: (providerContext, providerChild) {
