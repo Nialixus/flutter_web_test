@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'package:ellcase/addon/animatedtext.dart';
 import 'package:ellcase/animation/arrow.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:typewritertext/typewritertext.dart';
 
 class SubPage3 extends StatelessWidget {
   const SubPage3({Key? key, required this.topClick}) : super(key: key);
@@ -66,12 +66,12 @@ class SubPage3 extends StatelessWidget {
                                       visible: value.play == false
                                           ? true
                                           : value.pageVisibility[0],
-                                      child: AnimatedText(
+                                      child: TypeWriterText(
                                           play: value.pageVisibility[1] == true
                                               ? false
                                               : value.play,
                                           text: const Text(
-                                            'PT ELCASE SETIA HARAPANは外国人技能実習制度に基づくインドネシアの送り出し機関です。  日本での技能修得を希望するインドネシア人の若者たちを募集し、 日本語講習・事前講習の修了後、監理団体を通じて実習実施機関（採用企業）へ実習生を紹介します。 採用企業への実績に基づいたアドバイス、実習期間中の日本語学習や技能習得も支援します。',
+                                            'PT ELCASE SETIA HARAPANは外国人技能実習制度に基づくインドネシアの送り出し機関です。日本での技能修得を希望するインドネシア人の若者たちを募集し、日本語講習・事前講習の修了後、監理団体を通じて実習実施機関（採用企業）へ実習生を紹介します。採用企業への実績に基づいたアドバイス、実習期間中の日本語学習や技能習得も支援します。',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                                 height: 1.75,
@@ -87,7 +87,7 @@ class SubPage3 extends StatelessWidget {
                               textDirection: TextDirection.ltr,
                               text: const TextSpan(
                                 text:
-                                    '会社名 :PT ELCASE SETIA HARAPAN\n住所 :\nTEL :+62 812-8209-9920\nメール :Id.ellcase@gmail.com\n事業内容 :外国人技能実習生送り出し機関、日本語学校、 教育訓練',
+                                    '会社名 :PT ELCASE SETIA HARAPAN\n住所 :\nTEL :+62 812-8209-9920\nメール :Id.ellcase@gmail.com\n事業内容 :外国人技能実習生送り出し機関、日本語学校、教育訓練',
                                 style: TextStyle(
                                     height: 1.75,
                                     fontFamily: 'Mincho',
@@ -212,7 +212,7 @@ class SubPage3Provider with ChangeNotifier {
 
     await Future.delayed(Duration(
         milliseconds:
-            'PT ELCASE SETIA HARAPANは外国人技能実習制度に基づくインドネシアの送り出し機関です。  日本での技能修得を希望するインドネシア人の若者たちを募集し、 日本語講習・事前講習の修了後、監理団体を通じて実習実施機関（採用企業）へ実習生を紹介します。 採用企業への実績に基づいたアドバイス、実習期間中の日本語学習や技能習得も支援します。'
+            'PT ELCASE SETIA HARAPANは外国人技能実習制度に基づくインドネシアの送り出し機関です。日本での技能修得を希望するインドネシア人の若者たちを募集し、日本語講習・事前講習の修了後、監理団体を通じて実習実施機関（採用企業）へ実習生を紹介します。採用企業への実績に基づいたアドバイス、実習期間中の日本語学習や技能習得も支援します。'
                     .characters
                     .length *
                 50));

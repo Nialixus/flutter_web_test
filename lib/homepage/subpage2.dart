@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'package:ellcase/addon/animatedtext.dart';
 import 'package:ellcase/animation/arrow.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:typewritertext/typewritertext.dart';
 
 class SubPage2 extends StatelessWidget {
   const SubPage2({Key? key, required this.bottomClick, required this.topClick})
@@ -65,7 +65,7 @@ class SubPage2 extends StatelessWidget {
                               visible: value.play == false
                                   ? true
                                   : value.pageVisibility[0],
-                              child: AnimatedText(
+                              child: TypeWriterText(
                                   play: value.pageVisibility[1] == true
                                       ? false
                                       : value.play,
@@ -85,7 +85,7 @@ class SubPage2 extends StatelessWidget {
                             TextPainter painter = TextPainter(
                                 text: const TextSpan(
                                   text:
-                                      '私たちのビジョンは、若いインドネシア人が日本で働き、夢を実現できるよう支援することです。 雇用主と求職者の架け橋、また日本とインドネシアの架け橋。',
+                                      '私たちのビジョンは、若いインドネシア人が日本で働き、夢を実現できるよう支援することです。雇用主と求職者の架け橋、また日本とインドネシアの架け橋。',
                                   style: TextStyle(
                                       height: 1.75,
                                       fontFamily: 'Mincho',
@@ -112,7 +112,7 @@ class SubPage2 extends StatelessWidget {
                                       ? Duration.zero
                                       : const Duration(milliseconds: 750),
                                   child: const Text(
-                                    '私たちのビジョンは、若いインドネシア人が日本で働き、夢を実現できるよう支援することです。 雇用主と求職者の架け橋、また日本とインドネシアの架け橋。',
+                                    '私たちのビジョンは、若いインドネシア人が日本で働き、夢を実現できるよう支援することです。雇用主と求職者の架け橋、また日本とインドネシアの架け橋。',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         height: 1.75,

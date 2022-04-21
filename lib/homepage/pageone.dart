@@ -1,22 +1,22 @@
 import 'dart:async';
-import 'package:ellcase/addon/animatedtext.dart';
-import 'package:ellcase/animation/arrow.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:typewritertext/typewritertext.dart';
+import '../animation/arrow.dart';
+import 'provider/goone.dart';
 
-class SubPage1 extends StatelessWidget {
-  const SubPage1({Key? key, required this.bottomClick}) : super(key: key);
+class PageOne extends StatelessWidget {
+  const PageOne({Key? key, required this.bottomClick}) : super(key: key);
   final GestureDetector Function(Widget child) bottomClick;
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => SubPage1Provider(),
-        builder: (providerContext, providerChild) {
-          Provider.of<SubPage1Provider>(providerContext, listen: false)
-              .changeVisibility();
+        create: (context) => GoOne(),
+        builder: (goOneContext, goOneChild) {
+          Provider.of<GoOne>(goOneContext, listen: false).setVisibile();
 
-          return Consumer<SubPage1Provider>(
+          return Consumer<GoOne>(
               builder: (context, value, child) => Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -25,7 +25,7 @@ class SubPage1 extends StatelessWidget {
                           width: 150,
                           height: 150,
                           child: Visibility(
-                            visible: value.pageVisibility[4],
+                            visible: value.visible[4],
                             child: TweenAnimationBuilder<double>(
                                 duration: const Duration(milliseconds: 1000),
                                 curve: Curves.easeIn,
@@ -41,8 +41,8 @@ class SubPage1 extends StatelessWidget {
                           ),
                         ),
                         Visibility(
-                          visible: value.pageVisibility[1],
-                          child: const AnimatedText(
+                          visible: value.visible[1],
+                          child: const TypeWriterText(
                             text: Text(
                               'ELLCASE',
                               style: TextStyle(
@@ -86,7 +86,7 @@ class SubPage1 extends StatelessWidget {
                                     width: titlePainter.width,
                                     height: subtitlePainer.height,
                                     child: Visibility(
-                                        visible: value.pageVisibility[2],
+                                        visible: value.visible[2],
                                         child: TweenAnimationBuilder<double>(
                                             duration: const Duration(
                                                 milliseconds: 1000),
@@ -106,7 +106,7 @@ class SubPage1 extends StatelessWidget {
                                                   height: 3,
                                                   color: Colors.black,
                                                 )),
-                                                const AnimatedText(
+                                                const TypeWriterText(
                                                   text: Text(
                                                     'エルチャセ',
                                                     textAlign: TextAlign.center,
@@ -144,7 +144,7 @@ class SubPage1 extends StatelessWidget {
                             width: painter.width,
                             height: painter.height,
                             child: Visibility(
-                              visible: value.pageVisibility[4],
+                              visible: value.visible[4],
                               child: TweenAnimationBuilder<double>(
                                   duration: const Duration(milliseconds: 500),
                                   curve: Curves.easeIn,
@@ -163,7 +163,7 @@ class SubPage1 extends StatelessWidget {
                           width: 100,
                           height: 100,
                           child: Visibility(
-                            visible: value.pageVisibility[5],
+                            visible: value.visible[5],
                             child: bottomClick(
                               Container(
                                 color: Colors.transparent,
@@ -177,22 +177,5 @@ class SubPage1 extends StatelessWidget {
                         )
                       ]));
         });
-  }
-}
-
-class SubPage1Provider with ChangeNotifier {
-  List<bool> pageVisibility = [false, false, false, false, false, false];
-
-  void changeVisibility() async {
-    pageVisibility[0] = true;
-
-    Timer.periodic(const Duration(milliseconds: 750), (timer) {
-      if (timer.tick >= pageVisibility.length) {
-        timer.cancel();
-      } else {
-        pageVisibility[timer.tick] = true;
-        notifyListeners();
-      }
-    });
   }
 }
