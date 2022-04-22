@@ -32,11 +32,7 @@ class HomePageWrapper extends StatelessWidget {
               onKey: (key) =>
                   go.onPress(controller, key.logicalKey, size.height),
               child: Stack(
-                children: [
-                  page(size, thickness, go, controller),
-                  scrBg(thickness),
-                  floatLeft()
-                ],
+                children: [page(size, thickness, go, controller), floatLeft()],
               ),
             );
           },
@@ -49,11 +45,32 @@ Widget floatLeft() => Positioned(
       top: 0,
       bottom: 0,
       width: kToolbarHeight,
-      child: Container(
-          color: Colors.red,
-          child: Column(
-            children: [],
-          )),
+      child: Column(
+        children: [
+          for (int x = 0; x < 5; x++)
+            Padding(
+              padding: const EdgeInsets.only(top: kToolbarHeight * 0.1),
+              child: Tooltip(
+                message: [
+                  'Ellcase',
+                  'Telephone',
+                  'Whatsapp',
+                  'Line',
+                  'Email'
+                ][x],
+                child: InkWell(
+                  onTap: () {},
+                  customBorder: const CircleBorder(),
+                  child: Image.asset(
+                    'assets/${['logo', 'telp', 'wa', 'line', 'mail'][x]}.png',
+                    width: 40,
+                    height: 40,
+                  ),
+                ),
+              ),
+            )
+        ],
+      ),
     );
 
 /// Displaying homepage pages.
@@ -85,13 +102,13 @@ Widget page(Size size, double thickness, Go go, ScrollController controller) {
       go.getPost(controller.position.pixels, size.height);
       return false;
     },
-    child: RawScrollbar(
+    child: Scrollbar(
       controller: controller,
       thickness: thickness,
-      thumbColor: const Color(0xffD52438),
-      radius: Radius.zero,
       isAlwaysShown: true,
-      interactive: true,
+      hoverThickness: thickness,
+      trackVisibility: true,
+      radius: Radius.zero,
       child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           controller: controller,
@@ -103,13 +120,3 @@ Widget page(Size size, double thickness, Go go, ScrollController controller) {
     ),
   );
 }
-
-/// Scrollbar background.
-Widget scrBg(double thickness) => Positioned(
-    top: 0,
-    bottom: 0,
-    right: 0,
-    width: thickness,
-    child: Container(
-      color: const Color(0xff222222).withOpacity(0.1),
-    ));
