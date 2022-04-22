@@ -28,7 +28,7 @@ class HomePageOne extends StatelessWidget {
                         title(goOne),
                         subtitle(goOne),
                         company(goOne),
-                        arrow(goOne, onBottom)
+                        flags(),
                       ]));
         });
   }
@@ -48,7 +48,7 @@ Widget logo(GoOne goOneVal) => SizedBox(
               return Opacity(
                 opacity: value,
                 child: Image.asset(
-                  'assets/lambang.png',
+                  'assets/logo.png',
                 ),
               );
             }),
@@ -167,19 +167,14 @@ Widget company(GoOne goOne) => LayoutBuilder(builder: (context, constraints) {
     });
 
 /// Bottom Arrow.
-Widget arrow(GoOne goOne, GestureDetector Function(Widget child) onBottom) =>
-    SizedBox(
-      width: 100,
-      height: 100,
-      child: Visibility(
-        visible: goOne.visible[5],
-        child: onBottom(
-          Container(
-            color: Colors.transparent,
-            child: Arrow(
-                duration: const Duration(milliseconds: 750),
-                color: const Color(0xff222222).withOpacity(0.25)),
-          ),
-        ),
-      ),
+Widget flags() => Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        for (int x = 0; x < 2; x++)
+          Image.asset(
+            'assets/flag_${['id', 'jp'][x]}.png',
+            width: 50,
+            height: 50,
+          )
+      ],
     );
