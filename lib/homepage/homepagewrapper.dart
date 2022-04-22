@@ -33,8 +33,9 @@ class HomePageWrapper extends StatelessWidget {
                   go.onPress(controller, key.logicalKey, size.height),
               child: Stack(
                 children: [
+                  page(size, thickness, go, controller),
                   scrBg(thickness),
-                  page(size, thickness, go, controller)
+                  floatLeft()
                 ],
               ),
             );
@@ -42,6 +43,18 @@ class HomePageWrapper extends StatelessWidget {
         ));
   }
 }
+
+Widget floatLeft() => Positioned(
+      left: 0,
+      top: 0,
+      bottom: 0,
+      width: kToolbarHeight,
+      child: Container(
+          color: Colors.red,
+          child: Column(
+            children: [],
+          )),
+    );
 
 /// Displaying homepage pages.
 Widget page(Size size, double thickness, Go go, ScrollController controller) {
@@ -76,7 +89,9 @@ Widget page(Size size, double thickness, Go go, ScrollController controller) {
       controller: controller,
       thickness: thickness,
       thumbColor: const Color(0xffD52438),
+      radius: Radius.zero,
       isAlwaysShown: true,
+      interactive: true,
       child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           controller: controller,
