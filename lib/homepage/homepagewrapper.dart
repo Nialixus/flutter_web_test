@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../homepage/provider/go.dart';
 import '../homepage/homepageone.dart';
-import '../homepage/subpage2.dart';
-import '../homepage/subpage3.dart';
+import '../homepage/homepagetwo.dart';
+import '../homepage/state/go.dart';
+import 'homepagethree.dart';
 
-export '../homepage/homepagewrapper.dart' hide page, scrBg;
+export '../homepage/homepagewrapper.dart' show HomePageWrapper;
 
 /// Widget wrapper of entire homepages.
 class HomePageWrapper extends StatelessWidget {
@@ -56,8 +56,8 @@ Widget page(Size size, double thickness, Go go, ScrollController controller) {
   /// List of pages in homepage.
   List<Widget> homePages(Go goVal) => [
         HomePageOne(onBottom: onTap(0, 'bottom')),
-        SubPage2(bottomClick: onTap(1, 'bottom'), topClick: onTap(1, 'top')),
-        SubPage3(topClick: onTap(2, 'top'))
+        HomePageTwo(onBottom: onTap(1, 'bottom'), onTop: onTap(1, 'top')),
+        HomePageThree(onTop: onTap(2, 'top'))
       ].asMap().entries.map((e) {
         return Container(
             width: size.width,

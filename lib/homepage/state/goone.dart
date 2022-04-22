@@ -1,6 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
+import '../homepageone.dart';
+
+export '../state/goone.dart' show GoOne;
+
+/// State manager of [HomePageOne].
 class GoOne with ChangeNotifier {
   /// Boolean for stating widget has been visible or not.
   List<bool> visible = [false, false, false, false, false, false];

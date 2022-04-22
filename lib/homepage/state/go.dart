@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-export 'go.dart' hide Go;
+import '../homepagewrapper.dart';
 
+export 'go.dart' show Go;
+
+/// State manager of [HomePageWrapper].
 class Go with ChangeNotifier {
   /// boolean for stating widget has been built or not.
   List<bool> built = [true, false, false];

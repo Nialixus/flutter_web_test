@@ -3,9 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:typewritertext/typewritertext.dart';
 
 import '../animation/arrow.dart';
-import '../homepage/provider/goone.dart';
+import '../homepage/state/goone.dart';
 
-export 'homepageone.dart' hide arrow, company, logo, subtitle, title;
+export '../homepage/homepageone.dart' show HomePageOne;
 
 /// Displaying company's logo.
 class HomePageOne extends StatelessWidget {
@@ -34,6 +34,7 @@ class HomePageOne extends StatelessWidget {
   }
 }
 
+/// Company's Logo.
 Widget logo(GoOne goOneVal) => SizedBox(
       width: 150,
       height: 150,
@@ -54,6 +55,7 @@ Widget logo(GoOne goOneVal) => SizedBox(
       ),
     );
 
+/// Company's Nickname.
 Widget title(GoOne goOne) => Visibility(
       visible: goOne.visible[1],
       child: const TypeWriterText(
@@ -66,6 +68,7 @@ Widget title(GoOne goOne) => Visibility(
       ),
     );
 
+/// Company's Motto.
 Widget subtitle(GoOne goOne) {
   return Padding(
       padding: const EdgeInsets.only(bottom: 15),
@@ -133,6 +136,7 @@ Widget subtitle(GoOne goOne) {
       ));
 }
 
+/// Company's Name.
 Widget company(GoOne goOne) => LayoutBuilder(builder: (context, constraints) {
       TextPainter painter = TextPainter(
         textDirection: TextDirection.ltr,
@@ -162,6 +166,7 @@ Widget company(GoOne goOne) => LayoutBuilder(builder: (context, constraints) {
       );
     });
 
+/// Bottom Arrow.
 Widget arrow(GoOne goOne, GestureDetector Function(Widget child) onBottom) =>
     SizedBox(
       width: 100,
