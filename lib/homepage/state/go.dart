@@ -7,23 +7,36 @@ export 'go.dart' show Go;
 
 /// State manager of [HomePageWrapper].
 class Go with ChangeNotifier {
-  /// boolean for stating widget has been built or not.
-  List<bool> built = [true, false, false];
+  /// boolean for initiate widgets to show up.
+  HomepageState state = HomepageState();
+
+  /// boolean of drawer isOpen?.
+  bool drawer = false;
 
   /// Initial pixel position of [ScrollController].
   double pixels = 0;
 
+  void tapDrawer() {
+    drawer = !drawer;
+    notifyListeners();
+  }
+
   /// Detect wether page has been built or not.
-  void getPost(double newPixels, double tinggi) {
+  void getStart(double newPixels, double tinggi) {
     pixels = newPixels;
 
-    if (pixels >= tinggi * 0.5 && built[1] == false) {
-      built[1] = true;
+    if (pixels >= tinggi * 0.5 && state.pageTwoStart == false) {
+      state.pageTwoStart = true;
       notifyListeners();
-    } else if (pixels >= tinggi * 1.5 && built[2] == false) {
-      built[2] = true;
+    } else if (pixels >= tinggi * 1.5 && state.pageThreeStart == false) {
+      state.pageThreeStart = true;
       notifyListeners();
     }
+  }
+
+  void getEnd(Object endState) {
+    endState = true;
+    notifyListeners();
   }
 
   /// Navigate directly onpress.
@@ -49,4 +62,18 @@ class Go with ChangeNotifier {
 
     controller.animateTo(offset, duration: duration, curve: curve);
   }
+}
+
+class HomepageState {
+  bool wrapperStart = true;
+  bool wrapperEnd = false;
+
+  bool pageOneStart = true;
+  bool pageOneEnd = false;
+
+  bool pageTwoStart = false;
+  bool pageTwoEnd = false;
+
+  bool pageThreeStart = false;
+  bool pageThreeEnd = false;
 }

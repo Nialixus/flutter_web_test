@@ -8,62 +8,45 @@ import '../homepage/state/goThree.dart';
 export '../homepage/homepagethree.dart' show HomePageThree;
 
 class HomePageThree extends StatelessWidget {
-  const HomePageThree({Key? key, required this.onTop}) : super(key: key);
-  final GestureDetector Function(Widget child) onTop;
+  const HomePageThree({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (context) => GoThree(),
-        builder: (goThreeContext, goThreeChild) {
-          GoThree goThree = Provider.of<GoThree>(goThreeContext, listen: false);
-          goThree.setVisible();
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      alignment: Alignment.center,
+      padding: EdgeInsets.symmetric(
+          horizontal: MediaQuery.of(context).size.width * 0.2),
+      child: ChangeNotifierProvider(
+          create: (context) => GoThree(),
+          builder: (goThreeContext, goThreeChild) {
+            GoThree goThree =
+                Provider.of<GoThree>(goThreeContext, listen: false);
+            goThree.setVisible();
 
-          return Consumer<GoThree>(
-              builder: (goThreeCon, goThreeVal, goThreeChi) => GestureDetector(
-                    onTap: () => goThree.play == true ? goThree.setPlay() : {},
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height,
-                      color: Colors.transparent,
-                      alignment: Alignment.center,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          arrow(goThreeVal, onTop),
-                          synopsis(goThreeVal),
-                          form(goThreeVal)
-                        ],
+            return Consumer<GoThree>(
+                builder: (goThreeCon, goThreeVal, goThreeChi) =>
+                    GestureDetector(
+                      onTap: () =>
+                          goThree.play == true ? goThree.setPlay() : {},
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height,
+                        color: Colors.transparent,
+                        alignment: Alignment.center,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [synopsis(goThreeVal), form(goThreeVal)],
+                        ),
                       ),
-                    ),
-                  ));
-        });
+                    ));
+          }),
+    );
   }
 }
-
-/// Navigate to top.
-Widget arrow(
-        GoThree goThreeVal, GestureDetector Function(Widget child) onTop) =>
-    SizedBox(
-      width: 100,
-      height: 100,
-      child: Visibility(
-        visible: goThreeVal.play == false ? true : goThreeVal.visible[1],
-        child: onTop(
-          Container(
-            color: Colors.transparent,
-            child: RotatedBox(
-              quarterTurns: 2,
-              child: Arrow(
-                  duration: const Duration(milliseconds: 750),
-                  color: const Color(0xff222222).withOpacity(0.25)),
-            ),
-          ),
-        ),
-      ),
-    );
 
 Widget synopsis(GoThree goThreeVal) => Padding(
     padding: const EdgeInsets.only(bottom: 25),
