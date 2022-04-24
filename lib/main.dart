@@ -10,5 +10,7 @@ void main() {
       debugShowCheckedModeBanner: false,
       title: 'Ellcase',
       home: ChangeNotifierProvider(
-          create: (c) => Go(), child: const HomePageWrapper())));
+        create: (go) => Go(),
+        child: const HomePageWrapper(),
+      )));
 }

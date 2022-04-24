@@ -18,24 +18,27 @@ class HomePageOne extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     /// Animated title.
-    const TypeWriterText animTtl = TypeWriterText(
-        text: Text('ELLCASE',
+    TypeWriterText animTtl = TypeWriterText(
+        text: const Text('ELLCASE',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 68,
               letterSpacing: 5,
             )),
-        duration: Duration(milliseconds: 100),
+        duration: const Duration(milliseconds: 100),
         alignment: Alignment.centerLeft,
+        play: !done,
         maintainSize: true);
 
     /// Animated subtitle.
-    const TypeWriterText animSbtl = TypeWriterText(
-        text: Text('エルチャセ',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontWeight: FontWeight.bold)),
-        duration: Duration(milliseconds: 200),
-        alignment: Alignment.center);
+    TypeWriterText animSbtl = TypeWriterText(
+      text: const Text('エルチャセ',
+          textAlign: TextAlign.center,
+          style: TextStyle(fontWeight: FontWeight.bold)),
+      duration: const Duration(milliseconds: 200),
+      alignment: Alignment.center,
+      play: !done,
+    );
 
     return Container(
       width: MediaQuery.of(context).size.width,
@@ -61,7 +64,6 @@ class HomePageOne extends StatelessWidget {
 Widget logo(bool done, Go go) => FadeIn(
     sequence: 4,
     built: done,
-    onFinish: (done) => go.getEnd(go.state.pageOneEnd),
     size: const Size(150, 150),
     child: Image.asset('assets/logo.png'));
 

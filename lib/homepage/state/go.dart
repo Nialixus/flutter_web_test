@@ -8,13 +8,23 @@ export 'go.dart' show Go;
 /// State manager of [HomePageWrapper].
 class Go with ChangeNotifier {
   /// boolean for initiate widgets to show up.
-  HomepageState state = HomepageState();
 
   /// boolean of drawer isOpen?.
   bool drawer = false;
 
   /// Initial pixel position of [ScrollController].
   double pixels = 0;
+
+  Map<String, bool> state = {
+    'wrapperStart': true,
+    'wrapperEnd': false,
+    'pageOneStart': true,
+    'pageOneEnd': false,
+    'pageTwoStart': false,
+    'pageTwoEnd': false,
+    'pageThreeStart': false,
+    'pageThreeEnd': false
+  };
 
   void tapDrawer() {
     drawer = !drawer;
@@ -25,18 +35,13 @@ class Go with ChangeNotifier {
   void getStart(double newPixels, double tinggi) {
     pixels = newPixels;
 
-    if (pixels >= tinggi * 0.5 && state.pageTwoStart == false) {
-      state.pageTwoStart = true;
+    if (pixels >= tinggi * 0.5 && state['pageTwoStart'] == false) {
+      state['pageTwoStart'] = true;
       notifyListeners();
-    } else if (pixels >= tinggi * 1.5 && state.pageThreeStart == false) {
-      state.pageThreeStart = true;
+    } else if (pixels >= tinggi * 1.5 && state['pageThreeStart'] == false) {
+      state['pageThreeStart'] = true;
       notifyListeners();
     }
-  }
-
-  void getEnd(Object endState) {
-    endState = true;
-    notifyListeners();
   }
 
   /// Navigate directly onpress.
@@ -62,18 +67,4 @@ class Go with ChangeNotifier {
 
     controller.animateTo(offset, duration: duration, curve: curve);
   }
-}
-
-class HomepageState {
-  bool wrapperStart = true;
-  bool wrapperEnd = false;
-
-  bool pageOneStart = true;
-  bool pageOneEnd = false;
-
-  bool pageTwoStart = false;
-  bool pageTwoEnd = false;
-
-  bool pageThreeStart = false;
-  bool pageThreeEnd = false;
 }
