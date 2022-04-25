@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:typewritertext/typewritertext.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:provider/provider.dart';
 
 import '../addons/fadein.dart';
 import '../addons/texttopainter.dart';
@@ -10,104 +11,106 @@ export '../homepage/homepageone.dart' show HomePageOne;
 
 /// Displaying company's logo.
 class HomePageOne extends StatelessWidget {
-  const HomePageOne({Key? key, required this.done, required this.go})
-      : super(key: key);
-  final Go go;
-  final bool done;
+  const HomePageOne({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
     /// Animated title.
-    TypeWriterText animTtl = TypeWriterText(
-        text: const Text('ELLCASE',
+    TypeWriterText animTtl = const TypeWriterText(
+        text: Text('ELLCASE',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 68,
               letterSpacing: 5,
             )),
-        duration: const Duration(milliseconds: 100),
+        duration: Duration(milliseconds: 100),
         alignment: Alignment.centerLeft,
-        play: !done,
         maintainSize: true);
 
     /// Animated subtitle.
-    TypeWriterText animSbtl = TypeWriterText(
-      text: const Text('エルチャセ',
+    TypeWriterText animSbtl = const TypeWriterText(
+      text: Text('エルチャセ',
           textAlign: TextAlign.center,
           style: TextStyle(fontWeight: FontWeight.bold)),
-      duration: const Duration(milliseconds: 200),
-      alignment: Alignment.center,
-      play: !done,
+      duration: Duration(milliseconds: 200),
+      maintainSize: true,
     );
 
     return Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
-      alignment: Alignment.center,
-      padding: EdgeInsets.symmetric(
-          horizontal: MediaQuery.of(context).size.width * 0.2),
-      child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            logo(done, go),
-            title(animTtl, done),
-            subtitle(animTtl, animSbtl, done),
-            company(done),
-            flags(done)
-          ]),
-    );
+        width: size.width,
+        height: size.height,
+        alignment: Alignment.center,
+        padding: EdgeInsets.symmetric(horizontal: size.width * 0.2),
+        child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              logo,
+              title(animTtl),
+              subtitle(animTtl, animSbtl),
+              company,
+              flags
+            ]));
   }
 }
 
 /// Company's Logo.
-Widget logo(bool done, Go go) => FadeIn(
-    sequence: 4,
-    built: done,
-    size: const Size(150, 150),
+Widget logo = Consumer<Go>(
+    builder: (_, go, child) => FadeIn(
+        visible: go.state[0].onStart,
+        sequence: 4,
+        size: const Size(150, 150),
+        child: child!),
     child: Image.asset('assets/logo.png'));
 
 /// Company's Nickname.
-Widget title(TypeWriterText animTtl, bool done) =>
-    FadeIn(built: done, child: animTtl, sequence: 1);
+Widget title(TypeWriterText animTtl) => Consumer<Go>(
+    builder: (_, go, child) =>
+        FadeIn(visible: go.state[0].onStart, sequence: 1, child: child),
+    child: animTtl);
 
 /// Company's Motto.
-Widget subtitle(TypeWriterText title, TypeWriterText subtitle, bool done) {
-  return LayoutBuilder(
-      builder: (builderContext, constrains) => SizedBox(
-          width: title.text.toPainter(constrains).width,
-          height: subtitle.text.toPainter(constrains).height,
-          child: FadeIn(
-              built: done,
-              sequence: 2,
-              child: Row(mainAxisSize: MainAxisSize.min, children: [
-                for (int x = 0; x < 3; x++)
-                  x.isEven
-                      ? Expanded(
-                          child: Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 5),
-                              height: 3,
-                              color: Colors.black))
-                      : subtitle
-              ]))));
-}
+Widget subtitle(TypeWriterText title, TypeWriterText subtitle) => Consumer<Go>(
+    builder: (_, go, child) =>
+        FadeIn(visible: go.state[0].onStart, sequence: 2, child: child!),
+    child: LayoutBuilder(
+        builder: (_, constraints) => SizedBox(
+            width: title.text.toPainter(constraints).width,
+            height: subtitle.text.toPainter(constraints).height,
+            child: Stack(
+              fit: StackFit.loose,
+              alignment: Alignment.center,
+              children: [
+                Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 5),
+                    height: 3,
+                    color: Colors.black),
+                Container(color: Colors.white, width: 80, child: subtitle)
+              ],
+            ))));
 
 /// Company's Name.
-Widget company(bool done) => FadeIn.text(
-    built: done,
-    sequence: 4,
-    margin: const EdgeInsets.symmetric(vertical: 15.0),
-    text: const Text('PT ELCASE SETIA HARAPAN',
+Widget company = Consumer<Go>(
+    builder: (_, go, child) => FadeIn.text(
+        visible: go.state[0].onStart,
+        sequence: 4,
+        margin: const EdgeInsets.symmetric(vertical: 15.0),
+        text: child! as Text),
+    child: const Text('PT ELCASE SETIA HARAPAN',
         style: TextStyle(
             fontWeight: FontWeight.bold,
             letterSpacing: 2.5,
             color: Colors.black)));
 
 /// Bottom Arrow.
-Widget flags(bool done) => FadeIn(
-    built: done,
-    sequence: 4,
-    size: const Size(120, 50),
+Widget flags = Consumer<Go>(
+    builder: (_, go, child) => FadeIn(
+        visible: go.state[0].onStart,
+        sequence: 4,
+        size: const Size(120, 50),
+        child: child!),
     child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
       for (int x = 0; x < 2; x++)
         Padding(

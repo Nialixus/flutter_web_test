@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../homepage/homepagewrapper.dart';
-import 'homepage/state/go.dart';
+import '../homepage/state/go.dart';
 
 /// Run [HomePageWrapper].
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Ellcase',
-      home: ChangeNotifierProvider(
-        create: (go) => Go(),
-        child: const HomePageWrapper(),
+  runApp(ChangeNotifierProvider.value(
+      value: Go(),
+      child: const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Ellcase',
+        home: HomePageWrapper(),
       )));
 }

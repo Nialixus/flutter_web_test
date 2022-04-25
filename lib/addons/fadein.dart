@@ -5,7 +5,7 @@ import '../addons/texttopainter.dart';
 /// Animated opacity.
 class FadeIn extends StatelessWidget {
   final Duration? duration;
-  final bool? visible, built;
+  final bool? visible, play;
   final Curve? curve;
   final Size? size;
   final Text? text;
@@ -17,13 +17,13 @@ class FadeIn extends StatelessWidget {
   const FadeIn(
       {Key? key,
       required this.child,
-      this.duration,
+      this.duration = const Duration(milliseconds: 750),
       this.size,
       this.margin,
       this.curve,
       this.visible,
-      this.sequence,
-      this.built,
+      this.sequence = 0,
+      this.play = true,
       this.onFinish})
       : text = null,
         super(key: key);
@@ -31,13 +31,13 @@ class FadeIn extends StatelessWidget {
   const FadeIn.text(
       {Key? key,
       required this.text,
-      this.duration,
+      this.duration = const Duration(milliseconds: 750),
       this.size,
       this.margin,
       this.curve,
       this.visible,
-      this.sequence,
-      this.built,
+      this.sequence = 0,
+      this.play = true,
       this.onFinish})
       : child = null,
         super(key: key);
@@ -50,36 +50,33 @@ class FadeIn extends StatelessWidget {
         double? height =
             text != null ? text!.toPainter(constraints).height : size?.height;
 
-        Duration durasi = duration ?? const Duration(milliseconds: 750);
-
         return Container(
           width: width,
           height: height,
           margin: margin,
           alignment: Alignment.center,
-          child: built ?? false
-              ? child == null
-                  ? text!
-                  : child!
-              : FutureBuilder(
-                  future: Future.delayed(durasi * (sequence ?? 0)),
-                  builder: (context, snapshot) => Visibility(
-                      visible: visible ??
-                          snapshot.connectionState == ConnectionState.done,
-                      child: TweenAnimationBuilder<double>(
-                          duration: durasi,
-                          curve: curve ?? Curves.easeIn,
-                          tween: Tween(begin: 0, end: 1),
-                          builder: (_, value, ___) {
-                            onFinish != null
-                                ? value == 1
-                                    ? onFinish!(value == 1)
-                                    : null
-                                : null;
-                            return Opacity(
-                                opacity: value,
-                                child: child == null ? text! : child!);
-                          }))),
+          child: play == true
+              ? Visibility(
+                  visible: visible ?? true,
+                  child: FutureBuilder(
+                      future: Future.delayed(duration! * sequence!),
+                      builder: (context, snapshot) =>
+                          snapshot.connectionState == ConnectionState.done
+                              ? TweenAnimationBuilder<double>(
+                                  duration: duration!,
+                                  curve: curve ?? Curves.linear,
+                                  tween: Tween(begin: 0, end: 1),
+                                  builder: (_, value, ___) {
+                                    onFinish != null
+                                        ? value == 1
+                                            ? onFinish!(!(value == 1))
+                                            : null
+                                        : null;
+                                    return Opacity(
+                                        opacity: value, child: child ?? text!);
+                                  })
+                              : const SizedBox()))
+              : child ?? text!,
         );
       });
 }

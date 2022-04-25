@@ -1,3 +1,4 @@
+import 'package:ellcase/homepage/data/animationstate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -7,7 +8,7 @@ export 'go.dart' show Go;
 
 /// State manager of [HomePageWrapper].
 class Go with ChangeNotifier {
-  /// boolean for initiate widgets to show up.
+  ScrollController controller = ScrollController(initialScrollOffset: 0.0);
 
   /// boolean of drawer isOpen?.
   bool drawer = false;
@@ -15,16 +16,8 @@ class Go with ChangeNotifier {
   /// Initial pixel position of [ScrollController].
   double pixels = 0;
 
-  Map<String, bool> state = {
-    'wrapperStart': true,
-    'wrapperEnd': false,
-    'pageOneStart': true,
-    'pageOneEnd': false,
-    'pageTwoStart': false,
-    'pageTwoEnd': false,
-    'pageThreeStart': false,
-    'pageThreeEnd': false
-  };
+  List<AnimationState> state =
+      List.generate(3, (x) => AnimationState(onStart: x == 0));
 
   void tapDrawer() {
     drawer = !drawer;
@@ -35,18 +28,32 @@ class Go with ChangeNotifier {
   void getStart(double newPixels, double tinggi) {
     pixels = newPixels;
 
-    if (pixels >= tinggi * 0.5 && state['pageTwoStart'] == false) {
-      state['pageTwoStart'] = true;
-      notifyListeners();
-    } else if (pixels >= tinggi * 1.5 && state['pageThreeStart'] == false) {
-      state['pageThreeStart'] = true;
+    if (pixels >= tinggi && topButton == false) {
+      topButton = true;
+      // notifyListeners();
+    } else if (pixels < tinggi && topButton == true) {
+      topButton = false;
+      // notifyListeners();
+    }
+
+    if (pixels >= tinggi * 0.5 && state[1].onStart == false) {
+      state[1].onStart = true;
+      // notifyListeners();
+    } else if (pixels >= tinggi * 1.5 && state[2].onStart == false) {
+      state[2].onStart = true;
+      // notifyListeners();
+    }
+  }
+
+  void getEnd(int index, bool result) {
+    if (result == true) {
+      state[index].onEnd = result;
       notifyListeners();
     }
   }
 
   /// Navigate directly onpress.
-  void onPress(
-      ScrollController controller, LogicalKeyboardKey key, double height) {
+  void onPress(LogicalKeyboardKey key, double height) {
     if (key == LogicalKeyboardKey.arrowUp) {
       if (pixels > 0) {
         controller.jumpTo(pixels - 100);
@@ -58,13 +65,11 @@ class Go with ChangeNotifier {
     }
   }
 
-  /// Animate navigation onTap.
-  void onTap(
-      ScrollController controller, String key, int index, double height) {
-    const Duration duration = Duration(milliseconds: 750);
-    const Curve curve = Curves.easeIn;
-    double offset = height * (index + (key == 'top' ? -1 : 1));
+  bool topButton = false;
 
-    controller.animateTo(offset, duration: duration, curve: curve);
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 }
