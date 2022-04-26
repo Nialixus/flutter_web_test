@@ -38,10 +38,7 @@ class HomePageOne extends StatelessWidget {
       maintainSize: true,
     );
 
-    return Container(
-        width: size.width,
-        height: size.height,
-        alignment: Alignment.center,
+    return Padding(
         padding: EdgeInsets.symmetric(horizontal: size.width * 0.2),
         child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -57,67 +54,64 @@ class HomePageOne extends StatelessWidget {
 }
 
 /// Company's Logo.
-Widget logo = Consumer<Go>(
-    builder: (_, go, child) => FadeIn(
-        visible: go.state[0].onStart,
-        sequence: 4,
+Widget logo = Builder(
+    builder: (context) => FadeIn(
+        visible: context.select((Go go) => go.state[0].onStart),
+        sequence: 6,
         size: const Size(150, 150),
-        child: child!),
-    child: Image.asset('assets/logo.png'));
+        child: Image.asset('assets/logo.png')));
 
 /// Company's Nickname.
-Widget title(TypeWriterText animTtl) => Consumer<Go>(
-    builder: (_, go, child) =>
-        FadeIn(visible: go.state[0].onStart, sequence: 1, child: child),
-    child: animTtl);
+Widget title(TypeWriterText animTtl) => Builder(
+    builder: (context) => FadeIn(
+        visible: context.select((Go go) => go.state[0].onStart),
+        child: animTtl));
 
 /// Company's Motto.
-Widget subtitle(TypeWriterText title, TypeWriterText subtitle) => Consumer<Go>(
-    builder: (_, go, child) =>
-        FadeIn(visible: go.state[0].onStart, sequence: 2, child: child!),
-    child: LayoutBuilder(
-        builder: (_, constraints) => SizedBox(
-            width: title.text.toPainter(constraints).width,
-            height: subtitle.text.toPainter(constraints).height,
-            child: Stack(
-              fit: StackFit.loose,
-              alignment: Alignment.center,
-              children: [
-                Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 5),
-                    height: 3,
-                    color: Colors.black),
-                Container(color: Colors.white, width: 80, child: subtitle)
-              ],
-            ))));
+Widget subtitle(TypeWriterText title, TypeWriterText subtitle) => Builder(
+    builder: (context) => FadeIn(
+        visible: context.select((Go go) => go.state[0].onStart),
+        sequence: 3,
+        child: LayoutBuilder(
+            builder: (_, constraints) => SizedBox(
+                width: title.text.toPainter(constraints).width,
+                height: subtitle.text.toPainter(constraints).height,
+                child: Stack(
+                    fit: StackFit.loose,
+                    alignment: Alignment.center,
+                    children: [
+                      Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 5),
+                          height: 3,
+                          color: Colors.black),
+                      Container(color: Colors.white, width: 80, child: subtitle)
+                    ])))));
 
 /// Company's Name.
-Widget company = Consumer<Go>(
-    builder: (_, go, child) => FadeIn.text(
-        visible: go.state[0].onStart,
-        sequence: 4,
+Widget company = Builder(
+    builder: (context) => FadeIn.text(
+        visible: context.select((Go go) => go.state[0].onStart),
+        sequence: 6,
         margin: const EdgeInsets.symmetric(vertical: 15.0),
-        text: child! as Text),
-    child: const Text('PT ELCASE SETIA HARAPAN',
-        style: TextStyle(
-            fontWeight: FontWeight.bold,
-            letterSpacing: 2.5,
-            color: Colors.black)));
+        text: const Text('PT ELCASE SETIA HARAPAN',
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                letterSpacing: 2.5,
+                color: Colors.black))));
 
 /// Bottom Arrow.
-Widget flags = Consumer<Go>(
-    builder: (_, go, child) => FadeIn(
-        visible: go.state[0].onStart,
-        sequence: 4,
+Widget flags = Builder(
+    builder: (context) => FadeIn(
+        visible: context.select((Go go) => go.state[0].onStart),
+        sequence: 6,
         size: const Size(120, 50),
-        child: child!),
-    child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-      for (int x = 0; x < 2; x++)
-        Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 5),
-            child: GestureDetector(
-                onTap: () async => launchUrl(
-                    Uri.parse('https://ellcase.my.id/${['id', 'ja'][x]}')),
-                child: Image.asset('assets/flag_${['id', 'jp'][x]}.png',
-                    width: 50, height: 50)))
-    ]));
+        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          for (int x = 0; x < 2; x++)
+            Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 5),
+                child: GestureDetector(
+                    onTap: () async => launchUrl(
+                        Uri.parse('https://ellcase.my.id/${['id', 'ja'][x]}')),
+                    child: Image.asset('assets/flag_${['id', 'jp'][x]}.png',
+                        width: 50, height: 50)))
+        ])));

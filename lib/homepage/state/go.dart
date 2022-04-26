@@ -8,6 +8,9 @@ export 'go.dart' show Go;
 
 /// State manager of [HomePageWrapper].
 class Go with ChangeNotifier {
+  Go({required this.pageList});
+  final List<Widget> pageList;
+
   ScrollController controller = ScrollController(initialScrollOffset: 0.0);
 
   /// boolean of drawer isOpen?.
@@ -16,8 +19,8 @@ class Go with ChangeNotifier {
   /// Initial pixel position of [ScrollController].
   double pixels = 0;
 
-  List<AnimationState> state =
-      List.generate(3, (x) => AnimationState(onStart: x == 0));
+  List<AnimationState> get state => List.generate(
+      pageList.length, (x) => AnimationState(onStart: x == 0, onEnd: false));
 
   void tapDrawer() {
     drawer = !drawer;
@@ -30,26 +33,23 @@ class Go with ChangeNotifier {
 
     if (pixels >= tinggi && topButton == false) {
       topButton = true;
-      // notifyListeners();
+      notifyListeners();
     } else if (pixels < tinggi && topButton == true) {
       topButton = false;
-      // notifyListeners();
+      notifyListeners();
     }
 
-    if (pixels >= tinggi * 0.5 && state[1].onStart == false) {
-      state[1].onStart = true;
-      // notifyListeners();
-    } else if (pixels >= tinggi * 1.5 && state[2].onStart == false) {
-      state[2].onStart = true;
-      // notifyListeners();
+    for (int x = 1; x < state.length; x++) {
+      if (pixels >= tinggi * (x - 0.25) && state[x].onStart == false) {
+        state[x].onStart = true;
+        notifyListeners();
+      }
     }
   }
 
-  void getEnd(int index, bool result) {
-    if (result == true) {
-      state[index].onEnd = result;
-      notifyListeners();
-    }
+  void toTop() {
+    controller.animateTo(0.0,
+        duration: const Duration(milliseconds: 750), curve: Curves.easeIn);
   }
 
   /// Navigate directly onpress.

@@ -35,32 +35,27 @@ class HomePageTwo extends StatelessWidget {
     /// Shortcut duration
     const Duration duration = Duration(milliseconds: 200);
 
-    return Container(
-        width: size.width,
-        height: size.height,
-        alignment: Alignment.center,
+    return Padding(
         padding: EdgeInsets.symmetric(horizontal: size.width * 0.2),
-        child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Consumer<Go>(
-                  builder: (_, go, ___) =>
-                      FadeIn(visible: go.state[1].onStart, child: ___),
-                  child: const Padding(
-                      padding: EdgeInsets.only(bottom: 25),
-                      child: TypeWriterText(
-                        text: title,
-                        duration: duration,
-                      ))),
-              Consumer<Go>(
-                  builder: (_, go, ___) => FadeIn.text(
-                      visible: go.state[1].onStart,
-                      duration: duration,
-                      sequence: title.data!.length,
-                      text: ___! as Text),
-                  child: subtitle)
-            ]));
+        child: Builder(builder: (context) {
+          bool select = context.select((Go go) => go.state[1].onStart);
+          return Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                FadeIn(
+                    visible: select,
+                    child: const Padding(
+                        padding: EdgeInsets.only(bottom: 25),
+                        child:
+                            TypeWriterText(text: title, duration: duration))),
+                FadeIn.text(
+                    visible: select,
+                    duration: duration,
+                    sequence: title.data!.length,
+                    text: subtitle)
+              ]);
+        }));
   }
 }
