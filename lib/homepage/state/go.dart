@@ -1,3 +1,4 @@
+import 'package:ellcase/addons/boxgetter.dart';
 import 'package:ellcase/homepage/data/animationstate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,6 +22,13 @@ class Go with ChangeNotifier {
 
   List<AnimationState> get state => List.generate(
       pageList.length, (x) => AnimationState(onStart: x == 0, onEnd: false));
+
+  List<Size> sizes = [];
+
+  void addSizes(Size size) {
+    sizes.add(size);
+    notifyListeners();
+  }
 
   void tapDrawer() {
     drawer = !drawer;

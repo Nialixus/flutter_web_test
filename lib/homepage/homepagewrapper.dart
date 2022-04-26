@@ -1,7 +1,8 @@
-import 'package:ellcase/homepage/homepagefloatingbutton.dart';
+import 'package:ellcase/addons/boxgetter.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../homepage/homepagefloatingbutton.dart';
 import '../homepage/state/go.dart';
 
 export '../homepage/homepagewrapper.dart' show HomePageWrapper;
@@ -12,11 +13,6 @@ class HomePageWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scrollController = ScrollController();
-    final columnKey = GlobalKey();
-
-    _scrollToCurrentProgress(columnKey, scrollController);
-
     /// MediaQuery's width & height.
     Size size = MediaQuery.of(context).size;
     Go go = Provider.of<Go>(context, listen: false);
@@ -46,19 +42,16 @@ class HomePageWrapper extends StatelessWidget {
                           scrollDirection: Axis.vertical,
                           controller: go.controller,
                           physics: const BouncingScrollPhysics(),
-                          child: Column(children: go.pageList)))),
+                          child: Builder(builder: (context) {
+                            return Column(
+                                children: go.pageList
+                                  ..forEach((widget) {
+                                    WidgetSize(
+                                        onChange: (size) => go.addSizes(size),
+                                        child: widget);
+                                  }));
+                          })))),
               const HomePageFloatingButton()
             ])));
-  }
-
-  void _scrollToCurrentProgress(GlobalKey<State<StatefulWidget>> columnKey,
-      ScrollController scrollController) {
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      final RenderBox? renderBoxRed =
-          columnKey.currentContext?.findRenderObject() as RenderBox?;
-      double height = renderBoxRed?.size.height ?? 0;
-      scrollController.animateTo(0 * height,
-          duration: const Duration(seconds: 1), curve: Curves.decelerate);
-    });
   }
 }
