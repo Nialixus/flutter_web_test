@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:typewritertext/typewritertext.dart';
 import 'package:provider/provider.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 import '../addons/fadein.dart';
 import '../homepage/state/go.dart';
@@ -35,27 +36,38 @@ class HomePageTwo extends StatelessWidget {
     /// Shortcut duration
     const Duration duration = Duration(milliseconds: 200);
 
-    return Padding(
+    return Container(
+        constraints: BoxConstraints(minHeight: size.height),
+        alignment: Alignment.center,
         padding: EdgeInsets.symmetric(horizontal: size.width * 0.2),
-        child: Builder(builder: (context) {
-          bool select = context.select((Go go) => go.state[1].onStart);
-          return Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                FadeIn(
-                    visible: select,
-                    child: const Padding(
-                        padding: EdgeInsets.only(bottom: 25),
-                        child:
-                            TypeWriterText(text: title, duration: duration))),
-                FadeIn.text(
-                    visible: select,
+        child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              VisibilityDetector(
+                key: const Key('pageTwo'),
+                onVisibilityChanged: (result) {
+                  if (result.visibleFraction >= 0.5) {
+                    context.read<Go>().showPage(1);
+                  }
+                },
+                child: Builder(builder: (context) {
+                  return FadeIn(
+                      visible: context.select((Go go) => go.state[1]),
+                      child: const Padding(
+                          padding: EdgeInsets.only(bottom: 25),
+                          child:
+                              TypeWriterText(text: title, duration: duration)));
+                }),
+              ),
+              Builder(builder: (context) {
+                return FadeIn.text(
+                    visible: context.select((Go go) => go.state[1]),
                     duration: duration,
                     sequence: title.data!.length,
-                    text: subtitle)
-              ]);
-        }));
+                    text: subtitle);
+              })
+            ]));
   }
 }

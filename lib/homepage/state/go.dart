@@ -1,16 +1,22 @@
-import 'package:ellcase/addons/boxgetter.dart';
-import 'package:ellcase/homepage/data/animationstate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../homepageone.dart';
+import '../homepagetwo.dart';
+import '../homepagethree.dart';
+import '../homepagefour.dart';
 import '../homepagewrapper.dart';
 
 export 'go.dart' show Go;
 
 /// State manager of [HomePageWrapper].
 class Go with ChangeNotifier {
-  Go({required this.pageList});
-  final List<Widget> pageList;
+  List<Widget> pageList = const [
+    HomePageOne(),
+    HomePageTwo(),
+    HomePageThree(),
+    HomePageFour()
+  ];
 
   ScrollController controller = ScrollController(initialScrollOffset: 0.0);
 
@@ -20,15 +26,11 @@ class Go with ChangeNotifier {
   /// Initial pixel position of [ScrollController].
   double pixels = 0;
 
-  List<AnimationState> get state => List.generate(
-      pageList.length, (x) => AnimationState(onStart: x == 0, onEnd: false));
+  late List<bool> state = [
+    for (int x = 0; x < pageList.length; x++) false,
+  ];
 
-  List<Size> sizes = [];
-
-  void addSizes(Size size) {
-    sizes.add(size);
-    notifyListeners();
-  }
+  late List<bool> stateEnd = [for (int x = 0; x < pageList.length; x++) true];
 
   void tapDrawer() {
     drawer = !drawer;
@@ -36,7 +38,7 @@ class Go with ChangeNotifier {
   }
 
   /// Detect wether page has been built or not.
-  void getStart(double newPixels, double tinggi) {
+  void showButton(double newPixels, double tinggi) {
     pixels = newPixels;
 
     if (pixels >= tinggi && topButton == false) {
@@ -46,12 +48,19 @@ class Go with ChangeNotifier {
       topButton = false;
       notifyListeners();
     }
+  }
 
-    for (int x = 1; x < state.length; x++) {
-      if (pixels >= tinggi * (x - 0.25) && state[x].onStart == false) {
-        state[x].onStart = true;
-        notifyListeners();
-      }
+  void showPage(int index) {
+    if (state[index] == false) {
+      state[index] = true;
+      notifyListeners();
+    }
+  }
+
+  void stopPlay(int index) {
+    if (stateEnd[index] == true) {
+      stateEnd[index] = false;
+      notifyListeners();
     }
   }
 
@@ -63,11 +72,11 @@ class Go with ChangeNotifier {
   /// Navigate directly onpress.
   void onPress(LogicalKeyboardKey key, double height) {
     if (key == LogicalKeyboardKey.arrowUp) {
-      if (pixels > 0) {
+      if (pixels > controller.position.minScrollExtent) {
         controller.jumpTo(pixels - 100);
       }
     } else if (key == LogicalKeyboardKey.arrowDown) {
-      if (pixels < height * 2) {
+      if (pixels < controller.position.maxScrollExtent) {
         controller.jumpTo(pixels + 100);
       }
     }

@@ -1,4 +1,3 @@
-import 'package:ellcase/addons/boxgetter.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -28,7 +27,7 @@ class HomePageWrapper extends StatelessWidget {
                   onNotification: (t) {
                     context
                         .read<Go>()
-                        .getStart(t.metrics.extentBefore, size.height);
+                        .showButton(t.metrics.extentBefore, size.height);
                     return false;
                   },
                   child: Scrollbar(
@@ -42,15 +41,7 @@ class HomePageWrapper extends StatelessWidget {
                           scrollDirection: Axis.vertical,
                           controller: go.controller,
                           physics: const BouncingScrollPhysics(),
-                          child: Builder(builder: (context) {
-                            return Column(
-                                children: go.pageList
-                                  ..forEach((widget) {
-                                    WidgetSize(
-                                        onChange: (size) => go.addSizes(size),
-                                        child: widget);
-                                  }));
-                          })))),
+                          child: Column(children: go.pageList)))),
               const HomePageFloatingButton()
             ])));
   }

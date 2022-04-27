@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../addons/texttopainter.dart';
 
+export '../addons/fadein.dart' show FadeIn;
+
 /// Animated opacity.
 class FadeIn extends StatelessWidget {
   final Duration? duration;
-  final bool? visible, play;
+  final bool? visible, play, maintainSize;
   final Curve? curve;
   final Size? size;
   final Text? text;
@@ -18,6 +20,7 @@ class FadeIn extends StatelessWidget {
       {Key? key,
       required this.child,
       this.duration = const Duration(milliseconds: 750),
+      this.maintainSize = true,
       this.size,
       this.margin,
       this.curve,
@@ -31,6 +34,7 @@ class FadeIn extends StatelessWidget {
   const FadeIn.text(
       {Key? key,
       required this.text,
+      this.maintainSize = true,
       this.duration = const Duration(milliseconds: 750),
       this.size,
       this.margin,
@@ -43,21 +47,21 @@ class FadeIn extends StatelessWidget {
         super(key: key);
 
   @override
-  Widget build(BuildContext context) =>
-      LayoutBuilder(builder: (context, constraints) {
-        double? width =
-            text != null ? text!.toPainter(constraints).width : size?.width;
-        double? height =
-            text != null ? text!.toPainter(constraints).height : size?.height;
-
-        return Container(
-          width: width,
-          height: height,
+  Widget build(BuildContext context) => LayoutBuilder(
+      builder: (context, constraints) => Container(
+          width:
+              text != null ? text!.toPainter(constraints).width : size?.width,
+          height:
+              text != null ? text!.toPainter(constraints).height : size?.height,
           margin: margin,
           alignment: Alignment.center,
-          child: play == true
-              ? Visibility(
+          child: play == false
+              ? child ?? text!
+              : Visibility(
                   visible: visible ?? true,
+                  maintainSize: maintainSize!,
+                  maintainAnimation: maintainSize!,
+                  maintainState: maintainSize!,
                   child: FutureBuilder(
                       future: Future.delayed(duration! * sequence!),
                       builder: (context, snapshot) =>
@@ -75,8 +79,5 @@ class FadeIn extends StatelessWidget {
                                     return Opacity(
                                         opacity: value, child: child ?? text!);
                                   })
-                              : const SizedBox()))
-              : child ?? text!,
-        );
-      });
+                              : const SizedBox()))));
 }

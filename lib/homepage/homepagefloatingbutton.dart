@@ -20,7 +20,8 @@ class HomePageFloatingButton extends StatelessWidget {
         child: Builder(
             builder: (context) => FadeIn(
                 sequence: 8,
-                visible: context.select((Go go) => go.state[0].onStart),
+                play: context.select((Go go) => go.stateEnd[0]),
+                visible: context.select((Go go) => go.state[0]),
                 child: Stack(children: [bottom, top(context)]))));
   }
 }
@@ -90,7 +91,10 @@ Widget top(BuildContext context) => Positioned(
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    GestureDetector(
+                    InkWell(
+                        splashColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        hoverColor: Colors.transparent,
                         onTap: () {
                           context.read<Go>().tapDrawer();
                         },
