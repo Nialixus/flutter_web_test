@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:typewritertext/typewritertext.dart';
 import 'package:provider/provider.dart';
+import 'package:typewritertext/typewritertext.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../addons/fadein.dart';
@@ -39,7 +39,7 @@ class HomePageTwo extends StatelessWidget {
     return Container(
         constraints: BoxConstraints(minHeight: size.height),
         alignment: Alignment.center,
-        padding: EdgeInsets.symmetric(horizontal: size.width * 0.2),
+        padding: EdgeInsets.symmetric(horizontal: size.width * 0.1),
         child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,

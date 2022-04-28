@@ -48,7 +48,7 @@ class HomePageThree extends StatelessWidget {
     return Container(
         constraints: BoxConstraints(minHeight: size.height),
         alignment: Alignment.center,
-        padding: EdgeInsets.symmetric(horizontal: size.width * 0.2),
+        padding: EdgeInsets.symmetric(horizontal: size.width * 0.1),
         child: VisibilityDetector(
             key: const Key('pageThree'),
             onVisibilityChanged: (result) {

@@ -35,3 +35,12 @@ class GoFourFour with ChangeNotifier {
     notifyListeners();
   }
 }
+
+class GoFourFive with ChangeNotifier {
+  bool open = false;
+
+  void onVisible() {
+    open = true;
+    notifyListeners();
+  }
+}
