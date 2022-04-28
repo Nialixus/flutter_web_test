@@ -13,32 +13,38 @@ class HomePageFive extends StatelessWidget {
 
     return Container(
         alignment: Alignment.center,
-        padding:
-            EdgeInsets.symmetric(horizontal: size.width * 0.1, vertical: 0),
-        child: DefaultTextStyle(
-            style: const TextStyle(
-                height: 1.75,
-                fontFamily: 'Mincho',
-                fontWeight: FontWeight.bold),
-            child: Text.rich(
-              TextSpan(
-                children: [
-                  for (int x = 0; x < 2; x++)
-                    TextSpan(
-                        text: [
-                          '\nお問い合わせ\n\n',
-                          'Phone : (+62) 812-8209-9920\nメールアドレス :id.ellcase@gmail.com\n\n'
-                        ][x],
-                        style: TextStyle(fontSize: <double?>[40.0, null][x])),
-                  WidgetSpan(child: table()),
-                  const TextSpan(
-                      text:
-                          '\nお名前 例)鈴木 一郎\nフリガナ 例)スズキイチロウ\n\n電話番号 例)090-1234-5678\nメールアドレス 例)aaaa@yahoo.co.jp\nお問い合わせ内容 お問い合わせ内容をご記入ください。\n\nこちらの内容で送信します\n\n送信\n\n\n\n\n'),
-                  WidgetSpan(child: footer(context))
-                ],
-              ),
-              textAlign: TextAlign.center,
-            )));
+        padding: EdgeInsets.only(
+            left: size.width * 0.1, right: size.width * 0.1, top: 0, bottom: 0),
+        child: Column(
+          children: [
+            DefaultTextStyle(
+                style: const TextStyle(
+                    height: 1.75,
+                    fontFamily: 'Mincho',
+                    fontWeight: FontWeight.bold),
+                child: Text.rich(
+                  TextSpan(
+                    children: [
+                      for (int x = 0; x < 2; x++)
+                        TextSpan(
+                            text: [
+                              '\nお問い合わせ\n\n',
+                              'Phone : (+62) 812-8209-9920\nメールアドレス :id.ellcase@gmail.com\n\n'
+                            ][x],
+                            style:
+                                TextStyle(fontSize: <double?>[40.0, null][x])),
+                      WidgetSpan(child: table()),
+                      const TextSpan(
+                          text:
+                              '\nお名前 例)鈴木 一郎\nフリガナ 例)スズキイチロウ\n\n電話番号 例)090-1234-5678\nメールアドレス 例)aaaa@yahoo.co.jp\nお問い合わせ内容 お問い合わせ内容をご記入ください。\n\nこちらの内容で送信します\n\n送信\n\n\n\n\n'),
+                    ],
+                  ),
+                  textAlign: TextAlign.center,
+                  textScaleFactor: 1,
+                )),
+            footer(context)
+          ],
+        ));
   }
 }
 

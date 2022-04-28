@@ -242,11 +242,14 @@ Widget pageFourFour(BuildContext context) {
                   visible:
                       context.select((GoFourFour fourFour) => fourFour.open),
                   text: const Text(
-                      '↓\n出国\nインドネシアを出国して日本に入国して約1ヶ月間の講習を行う\n↓\nフォローサポート\n入国後も日本にいる実習生たちとコンタクトをとり、相談などをうける\n帰国後の実習生への職業紹介もする\n\n\n\n\n',
+                      '↓\n出国\nインドネシアを出国して日本に入国して約1ヶ月間の講習を行う\n↓\nフォローサポート\n入国後も日本にいる実習生たちとコンタクトをとり、相談などをうける\n帰国後の実習生への職業紹介もする\n\n',
                       textAlign: TextAlign.center)),
-              ChangeNotifierProvider(
-                create: (context) => GoFourFive(),
-                builder: (context, child) => pageFourFive(context),
+              FadeIn(
+                visible: context.select((GoFourFour fourFour) => fourFour.open),
+                child: ChangeNotifierProvider(
+                  create: (context) => GoFourFive(),
+                  builder: (context, child) => pageFourFive(context),
+                ),
               ),
             ]))
   ]);
